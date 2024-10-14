@@ -28,12 +28,12 @@ The target and context (i.e. previous) frames are encoded using a shared encoder
 
 ## Setup
 
-**Requirements**: Python >= 3.6 (tested on Python 3.8), PyTorch 1.8.1, PyTorch Lightning 1.4.4 (for training)
+Tested on Python 3.10, using CUDA 12.6.
 
 The required Python libraries can be installed using the following pip command
 
 ```bash
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 ```
 
 ## Usage
