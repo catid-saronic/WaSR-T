@@ -12,7 +12,7 @@ from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from wasr_t.wasr_t import wasr_temporal_resnet101
 from wasr_t.mobile_wasr_t import wasr_temporal_lraspp_mobilenetv3
 from wasr_t.train import LitModel
-from wasr_t.utils import MainLoggerCollection, Option
+from wasr_t.utils import Option
 from wasr_t.callbacks import ModelExport
 from wasr_t.data.mastr import MaSTr1325Dataset
 from wasr_t.data.transforms import get_augmentation_transform, PytorchHubNormalization
@@ -214,8 +214,7 @@ def train_wasrt(args):
         wandb_logger = pl_loggers.WandbLogger(version_name, args.output_dir, project='WaSR', log_model=False)
         loggers.append(wandb_logger)
 
-    logger = MainLoggerCollection(loggers)
-    logger.log_hyperparams(args)
+    tb_logger.log_hyperparams(args)
 
     callbacks = []
     if args.validation:
@@ -226,7 +225,7 @@ def train_wasrt(args):
 
     callbacks.append(ModelExport(os.path.join(args.output_dir, 'models')))
 
-    trainer = pl.Trainer(logger=logger,
+    trainer = pl.Trainer(logger=loggers,
                          gpus=args.gpus,
                          num_nodes=args.num_nodes,
                          max_epochs=args.epochs,
